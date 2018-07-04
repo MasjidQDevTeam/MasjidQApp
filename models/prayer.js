@@ -36,3 +36,5 @@ module.exports = (sequelize, DataTypes) => {
   };
   return prayer;
 };
+
+//Test git rebase
