@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
     }
+    createdAt: new Date(),
+    updatedAt: new Date(),
   }, {});
   prayer.associate = function(models) {
     // associations can be defined here
