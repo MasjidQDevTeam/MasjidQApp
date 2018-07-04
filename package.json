@@ -1,0 +1,31 @@
+{
+  "name": "MasjidQApp",
+  "version": "1.0.0",
+  "description": "Repo to store source code",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MasjidQDevTeam/MasjidQApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MasjidQDevTeam/MasjidQApp/issues"
+  },
+  "homepage": "https://github.com/MasjidQDevTeam/MasjidQApp#readme",
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "nodemailer": "^4.6.7",
+    "pg": "^7.4.3",
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.0.0"
+  }
+}
