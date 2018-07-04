@@ -61,20 +61,21 @@ module.exports = (sequelize, DataTypes) => {
               },
             }).then((result) => {
               if (result !== null) {
-                callback("A user has already registered with the entered email address")
+                callback("A user has already registered with the entered email address");
               } else {
-                callback()
+                callback();
               }
             })
             .catch((err) => {
-              callback(err)
+              callback(err);
             })
         },
       },
     },
   }, {});
   user.associate = function(models) {
-    // associations can be defined here
+    user.hasMany(models.e_sedekah);
+    user.belongsToMany(models.prayer, {through: "UserPrayer"})
   };
   return user;
 };

@@ -4,9 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     nominal: DataTypes.INTEGER,
     createdAt: new Date(),
     updatedAt: new Date(),
+    userId: DataTypes.INTEGER,
   }, {});
   e_sedekah.associate = function(models) {
-    // associations can be defined here
+    e_sedekah.belongsTo(models.user)
   };
   return e_sedekah;
 };
