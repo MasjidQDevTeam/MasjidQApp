@@ -59,9 +59,9 @@ var sessionChecker3 = ((req, res, next) => {
   }
 })
 
-app.use('/', sessionChecker3, index)
-app.use('/register', sessionChecker, sessionChecker3, register)
-app.use('/login', sessionChecker, sessionChecker3, login)
-app.use('/logout', sessionChecker, sessionChecker3, logout)
+app.use('/', index)
+app.use('/register', sessionChecker3, sessionChecker, register)
+app.use('/login', sessionChecker3, sessionChecker, login)
+app.use('/logout', sessionChecker, logout)
 
 app.listen(3000, console.log('connecting to localhost'))
