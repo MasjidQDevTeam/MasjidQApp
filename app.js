@@ -50,10 +50,18 @@ var sessionChecker = ((req, res, next) => {
   }
 })
 
+var sessionChecker3 = ((req, res, next) => {
+  console.log("sessionChecker3 processing....");
+  if (req.session.email) {
+    res.redirect("/dashboard");
+  } else {
+    next();
+  }
+})
 
-app.use('/', index)
-app.use('/register', sessionChecker, register)
-app.use('/login', sessionChecker, login)
-app.use('/logout', sessionChecker, logout)
+app.use('/', sessionChecker3, index)
+app.use('/register', sessionChecker, sessionChecker3, register)
+app.use('/login', sessionChecker, sessionChecker3, login)
+app.use('/logout', sessionChecker, sessionChecker3, logout)
 
 app.listen(3000, console.log('connecting to localhost'))
