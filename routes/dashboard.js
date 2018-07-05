@@ -137,6 +137,50 @@ dashboard.get("/admin", sessionChecker, sessionChecker4, (req, res) => {
     })
 })
 
+dashboard.post("/admin", sessionChecker, sessionChecker4, (req, res) => {
+  if (req.body.random !== null) {
+    let transporter = nodeMailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'hacktiv8andresudi@gmail.com',
+        pass: 'hacktiv8Super'
+      }
+    })
+
+
+    models.user.findAll({
+      where: {
+        user_type: "Ansor",
+      }
+    })
+    .then((userData) => {
+      userData.forEach((datum) => {
+        // let randomNumber = String(Math.floor((Math.random() * 4) + 54))
+        let customUrl = "http://localhost:3000/verification/" + datum.id
+        console.log(datum);
+        let mailOptions = {
+          from: '"MasjidQ" <hacktiv8andresudi@gmail.com>',
+          to: datum.email,
+          subject: "Ansor Invitation Confirmation",
+          text: `Assalamualaikum ${datum.full_name},\nTo confirm your duty as an Ansor, please click the link below:\n${customUrl}\nWassalamualaikum`,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            return console.log(error);
+          }
+        })
+      })
+    })
+    .then(() => {
+      res.send("sent")
+    })
+  }
+})
+
 dashboard.get("/ansor", sessionChecker, sessionChecker6, (req, res) => {
   res.send("ansor dashboard")
 })
