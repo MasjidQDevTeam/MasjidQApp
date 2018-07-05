@@ -5,14 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     prayer_name: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true
+        notEmpty: true,
         isUnique: function(value, callback) {
           prayer.findOne({
             where: {
               prayer_name: value,
               id: {
                 [Op.ne]: this.id
-              }
+              },
             },
           })
           .then((result) => {
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
           })
         }
       },
-    }
+    },
     createdAt: new Date(),
     updatedAt: new Date(),
   }, {});

@@ -1,12 +1,14 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Op = sequelize.Op;
+  const bcrypt = require('bcrypt');
+  const saltRounds = 8;
   var user = sequelize.define('user', {
     full_name: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: true,
-        is: ["^[a-z]+$", 'i'],
+        is: /^[a-zA-Z\s]*$/,
         isUnique: function(value, callback) {
           user.findOne({
             where: {
@@ -73,6 +75,14 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   }, {});
+
+  user.beforeCreate((user, options) => {
+    return bcrypt.hash(user.password, saltRounds)
+    .then((encryptedPsw) => {
+      user.password = encryptedPsw;
+    })
+  })
+
   user.associate = function(models) {
     user.hasMany(models.e_sedekah);
     user.belongsToMany(models.prayer, {through: "UserPrayer"})
