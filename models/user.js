@@ -1,33 +1,35 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Op = sequelize.Op;
+  const bcrypt = require('bcrypt');
+  const saltRounds = 8;
   var user = sequelize.define('user', {
     full_name: {
       type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-        is: ["^[a-z]+$", 'i'],
-        isUnique: function(value, callback) {
-          user.findOne({
-            where: {
-              full_name: value,
-              id: {
-                [Op.ne]: this.id
-              },
-            },
-          })
-          .then((result) => {
-            if (result !== null) {
-              callback("A user has already registered with the entered full name")
-            } else {
-              callback()
-            }
-          })
-          .catch((err) => {
-            callback(err)
-          })
-        }
-      },
+      // validate: {
+      //   notEmpty: true,
+      //   is: ["^[a-z]+$", 'i'],
+      //   isUnique: function(value, callback) {
+      //     user.findOne({
+      //       where: {
+      //         full_name: value,
+      //         id: {
+      //           [Op.ne]: this.id
+      //         },
+      //       },
+      //     })
+      //     .then((result) => {
+      //       if (result !== null) {
+      //         callback("A user has already registered with the entered full name")
+      //       } else {
+      //         callback()
+      //       }
+      //     })
+      //     .catch((err) => {
+      //       callback(err)
+      //     })
+      //   }
+      // },
     },
     user_type: {
       type: DataTypes.STRING,
@@ -73,6 +75,14 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   }, {});
+
+  user.beforeCreate((user, options) => {
+    return bcrypt.hash(user.password, saltRounds)
+    .then((encryptedPsw) => {
+      user.password = encryptedPsw;
+    })
+  })
+
   user.associate = function(models) {
     user.hasMany(models.e_sedekah);
     user.belongsToMany(models.prayer, {through: "UserPrayer"})

@@ -2,13 +2,14 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const test = require('./routes/test123.js')
+const registration = require('./routes/registration');
 
 app.set('view engine', 'ejs')
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false }))
 app.use(bodyParser.json())
 
-app.use('/', index)
+// app.use('/', index)
+app.use("/", registration)
 
-app.listen(3000, console.log('connecting to localhost:3000'))
+app.listen("3000", console.log('connecting to localhost:3000'))
