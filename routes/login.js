@@ -36,6 +36,7 @@ login.post("/", (req, res, next) => {
 }, (req, res) => {
   let input = req.body;
   req.session.email = input.email;
+  console.log(req.session);
   res.redirect("/dashboard");
 })
 

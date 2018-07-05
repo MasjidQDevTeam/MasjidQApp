@@ -1,6 +1,7 @@
 const dashboard = require("express").Router();
 const ejs = require('ejs');
 const models = require('../models');
+const nodeMailer = require('nodemailer');
 
 dashboard.get("/", (req, res) => {
   if (req.session.email && req.cookies.email_sid) {
@@ -8,12 +9,12 @@ dashboard.get("/", (req, res) => {
         where: {
           email: req.session.email
         },
-        attributes: ["user_type", "id", "full_name"]
       })
       .then((loggedInUserData) => {
         req.session.user_type = loggedInUserData.user_type;
-        req.session.id = loggedInUserData.id;
+        req.session.userId = loggedInUserData.id;
         req.session.full_name = loggedInUserData.full_name;
+        // console.log(req.session);
         res.render("dashboard-enter-page", {
           full_name: req.session.full_name,
           user_type: req.session.user_type
@@ -21,6 +22,15 @@ dashboard.get("/", (req, res) => {
       })
   } else {
     res.redirect("/")
+  }
+})
+
+var sessionChecker = ((req, res, next) => {
+  console.log("sessionChecker2 processing....");
+  if (!req.session.email) {
+    res.redirect("../");
+  } else {
+    next();
   }
 })
 
@@ -38,15 +48,59 @@ dashboard.post("/", (req, res) => {
   }
 })
 
-dashboard.get("/jamaah", (req, res) => {
-  res.send("jamaah dashboard")
+dashboard.get("/jamaah", sessionChecker, (req, res) => {
+  res.render("jamaahPage")
 })
 
-dashboard.get("/admin", (req, res) => {
+dashboard.post("/jamaah", sessionChecker, (req, res) => {
+  let transporter = nodeMailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'hacktiv8andresudi@gmail.com',
+      pass: 'hacktiv8Super'
+    }
+  })
+
+  let mailOptions = {
+    from: '"MasjidQ" <hacktiv8andresudi@gmail.com>',
+    to: req.session.email,
+    subject: "E-Sedekah Thank You Note",
+    // text: `Assalamualaikum ${req.session.full_name}\n with nominal ${req.body.nominal}`
+    text: `Assalamualaikum ${req.session.full_name},\nThank you for your E-Sedekah with nominal:\nRp. ${req.body.nominal}\nWassalamualaikum`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+  })
+
+  console.log(req.session);
+
+  models.e_sedekah.create({
+    nominal: req.body.nominal,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    userId: req.session.userId,
+  })
+  .then(() => {
+    res.render('jamaahPage')
+  })
+  .catch((err) => {
+    console.log(err.message);
+  })
+
+
+})
+
+dashboard.get("/admin", sessionChecker, (req, res) => {
   res.send("admin dashboard")
 })
 
-dashboard.get("/ansor", (req, res) => {
+dashboard.get("/ansor", sessionChecker, (req, res) => {
   res.send("ansor dashboard")
 })
 
