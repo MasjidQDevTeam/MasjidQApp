@@ -6,30 +6,30 @@ module.exports = (sequelize, DataTypes) => {
   var user = sequelize.define('user', {
     full_name: {
       type: DataTypes.STRING,
-      // validate: {
-      //   notEmpty: true,
-      //   is: ["^[a-z]+$", 'i'],
-      //   isUnique: function(value, callback) {
-      //     user.findOne({
-      //       where: {
-      //         full_name: value,
-      //         id: {
-      //           [Op.ne]: this.id
-      //         },
-      //       },
-      //     })
-      //     .then((result) => {
-      //       if (result !== null) {
-      //         callback("A user has already registered with the entered full name")
-      //       } else {
-      //         callback()
-      //       }
-      //     })
-      //     .catch((err) => {
-      //       callback(err)
-      //     })
-      //   }
-      // },
+      validate: {
+        notEmpty: true,
+        is: /^[a-zA-Z\s]*$/,
+        isUnique: function(value, callback) {
+          user.findOne({
+            where: {
+              full_name: value,
+              id: {
+                [Op.ne]: this.id
+              },
+            },
+          })
+          .then((result) => {
+            if (result !== null) {
+              callback("A user has already registered with the entered full name")
+            } else {
+              callback()
+            }
+          })
+          .catch((err) => {
+            callback(err)
+          })
+        }
+      },
     },
     user_type: {
       type: DataTypes.STRING,
