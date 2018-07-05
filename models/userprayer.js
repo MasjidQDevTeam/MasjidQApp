@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: new Date(),
   }, {});
   UserPrayer.associate = function(models) {
-    UserPrayer.belongsTo(models.user);
-    UserPrayer.belongsTo(models.prayer);
+    UserPrayer.belongsTo(models.user, {foreignKey: "UserId"});
+    UserPrayer.belongsTo(models.prayer, {foreignKey: "PrayerId"});
   };
   return UserPrayer;
 };
