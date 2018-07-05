@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Nodemailer Email Example</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container"><br />
+      <h1 class="text-center">Send The Email To Jamaah</h1><br />
+      <form action="/sedekah_online/" method="post">
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="form-group col-md-4">
+                <label for="subject">Full Name:</label>
+                <input type="text" class="form-control" name="full_name"> 
+            </div>
+          <div class="form-group col-md-4">
+            <label for="to">To:</label>
+            <input type="email" class="form-control" name="to">
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-md-4"></div>
+        <div class="form-group col-md-4">
+            <label for="subject">Nominal:</label>
+            <input type="text" class="form-control" name="nominal">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="form-group col-md-4">
+            <button type="submit" class="btn btn-success">Send</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
