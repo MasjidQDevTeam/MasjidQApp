@@ -34,7 +34,9 @@ login.post("/", (req, res, next) => {
       });
     })
 }, (req, res) => {
-  
+  let input = req.body;
+  req.session.email = input.email;
+  res.redirect("/dashboard");
 })
 
 // login.post("/", (req, res) => {
