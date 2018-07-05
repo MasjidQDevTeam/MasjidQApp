@@ -13,6 +13,7 @@ const register = require('./routes/register');
 const login = require('./routes/login');
 const dashboard = require('./routes/dashboard');
 const logout = require('./routes/logout');
+const verify = require('./routes/verification_email')
 
 
 app.set('view engine', 'ejs');
@@ -55,5 +56,6 @@ app.use('/', index)
 app.use('/register', sessionChecker, register)
 app.use('/login', sessionChecker, login)
 app.use('/logout', sessionChecker, logout)
+
 
 app.listen(3000, console.log('connecting to localhost'))
