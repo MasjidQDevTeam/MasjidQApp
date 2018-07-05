@@ -2,11 +2,12 @@ const login = require('express').Router();
 const models = require('../models');
 const ejs = require('ejs');
 const bcrypt = require('bcrypt');
-const saltRounds = 8;
 
 
 login.get("/", (req, res) => {
-  res.render("login");
+  res.render("login", {
+    error_message: null,
+  });
 })
 
 login.post("/", (req, res, next) => {
@@ -22,11 +23,22 @@ login.post("/", (req, res, next) => {
       if (passCheck === true) {
         next()
       } else {
-        res.send("wrong password/email")
+        res.render("login", {
+          error_message: "wrong email/password",
+        });
       }
     })
+    .catch(() => {
+      res.render("login", {
+        error_message: "wrong email/password",
+      });
+    })
 }, (req, res) => {
-  res.send("success");
+  
 })
+
+// login.post("/", (req, res) => {
+//   res.send("boom")
+// })
 
 module.exports = login;
