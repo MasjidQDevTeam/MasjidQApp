@@ -81,23 +81,33 @@ dashboard.post("/jamaah", sessionChecker, (req, res) => {
   console.log(req.session);
 
   models.e_sedekah.create({
-    nominal: req.body.nominal,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    userId: req.session.userId,
-  })
-  .then(() => {
-    res.render('jamaahPage')
-  })
-  .catch((err) => {
-    console.log(err.message);
-  })
+      nominal: req.body.nominal,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      userId: req.session.userId,
+    })
+    .then(() => {
+      res.render('jamaahPage')
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
 
 
 })
 
 dashboard.get("/admin", sessionChecker, (req, res) => {
-  res.send("admin dashboard")
+  models.prayer.findAll({
+      order: [
+        ["id", "ASC"]
+      ],
+      include: [models.user],
+    })
+    .then((userPrayerData) => {
+      res.render("adminPage", {
+        userPrayerData: userPrayerData,
+      })
+    })
 })
 
 dashboard.get("/ansor", sessionChecker, (req, res) => {

@@ -85,7 +85,7 @@ module.exports = (sequelize, DataTypes) => {
 
   user.associate = function(models) {
     user.hasMany(models.e_sedekah);
-    user.belongsToMany(models.prayer, {through: "UserPrayer"})
+    user.belongsToMany(models.prayer, {through: "UserPrayer", foreignKey: "UserId"})
   };
   return user;
 };

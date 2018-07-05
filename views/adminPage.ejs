@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <meta charset="utf-8" <title>
+  </title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <%- include("./partials/generalHeaderWithLogout") %>
+    <div class="container">
+      <center>
+        <h1>Admin Page</h1>
+      </center>
+      <br>
+      <center>
+        <form class="" action="/dashboard/admin" method="post">
+          <button type="submit" name="button" value="randomize">Assign Ansor Randomly</button>
+          <button type="submit" name="button" value="clear">Clear Ansor Assignment</button>
+        </form>
+      </center>
+
+      <table class="table">
+        <thead style="background: #DE9139">
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Prayer Name</th>
+            <th scope="col">Ansors with Pending Invitation</th>
+            <th scope="col">Confirmed On Duty Ansors</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = 0; i < userPrayerData.length; i++) { %>
+            <tr>
+              <td>
+                <%= i + 1 %>
+              </td>
+              <td>
+                <%= userPrayerData[i].prayer_name %>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+            </tr>
+            <% } %>
+        </tbody>
+
+</body>
+
+</html>

@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: new Date(),
   }, {});
   prayer.associate = function(models) {
-    prayer.belongsToMany(models.user, {through: "UserPrayer"});
+    prayer.belongsToMany(models.user, {through: "UserPrayer", foreignKey: "PrayerId"});
   };
   return prayer;
 };

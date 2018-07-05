@@ -56,6 +56,7 @@ app.use('/', index)
 app.use('/register', sessionChecker, register)
 app.use('/login', sessionChecker, login)
 app.use('/logout', sessionChecker, logout)
+app.use('/verify', verify)
 
 
 app.listen(3000, console.log('connecting to localhost'))

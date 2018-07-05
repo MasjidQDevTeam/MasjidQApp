@@ -4,7 +4,7 @@ const router = express.Router()
 const ejs = require('ejs')
 
 router.get('/', (req, res) => {
-    res.render('verification.html')
+    res.render('verification_email')
 })
 
 router.get('/send', (req, res) => {
@@ -12,7 +12,7 @@ router.get('/send', (req, res) => {
     host = req.get('host')
     link="http://"+req.get('host')+"/verify?id="+rand
     mailOptions={
-        to: req.body.to,
+        to: req.body.email,
         subject: "Please confirm bro",
         html: "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
     }
