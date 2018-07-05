@@ -51,10 +51,18 @@ var sessionChecker = ((req, res, next) => {
   }
 })
 
+var sessionChecker3 = ((req, res, next) => {
+  console.log("sessionChecker3 processing....");
+  if (req.session.email) {
+    res.redirect("/dashboard");
+  } else {
+    next();
+  }
+})
 
 app.use('/', index)
-app.use('/register', sessionChecker, register)
-app.use('/login', sessionChecker, login)
+app.use('/register', sessionChecker3, sessionChecker, register)
+app.use('/login', sessionChecker3, sessionChecker, login)
 app.use('/logout', sessionChecker, logout)
 app.use('/verify', verify)
 

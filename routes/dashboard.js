@@ -34,6 +34,33 @@ var sessionChecker = ((req, res, next) => {
   }
 })
 
+var sessionChecker4 = ((req, res, next) => {
+  console.log("sessionChecker4 processing....");
+  if (req.session.user_type !== "Admin") {
+    res.redirect("/dashboard");
+  } else {
+    next();
+  }
+})
+
+var sessionChecker5 = ((req, res, next) => {
+  console.log("sessionChecker5 processing....");
+  if (req.session.user_type !== "Jamaah") {
+    res.redirect("/dashboard");
+  } else {
+    next();
+  }
+})
+
+var sessionChecker6 = ((req, res, next) => {
+  console.log("sessionChecker6 processing....");
+  if (req.session.user_type !== "Ansor") {
+    res.redirect("/dashboard");
+  } else {
+    next();
+  }
+})
+
 dashboard.post("/", (req, res) => {
   // console.log(req.cookies);
   // console.log(req.session);
@@ -48,7 +75,7 @@ dashboard.post("/", (req, res) => {
   }
 })
 
-dashboard.get("/jamaah", sessionChecker, (req, res) => {
+dashboard.get("/jamaah", sessionChecker, sessionChecker5, (req, res) => {
   res.render("jamaahPage")
 })
 
@@ -96,7 +123,7 @@ dashboard.post("/jamaah", sessionChecker, (req, res) => {
 
 })
 
-dashboard.get("/admin", sessionChecker, (req, res) => {
+dashboard.get("/admin", sessionChecker, sessionChecker4, (req, res) => {
   models.prayer.findAll({
       order: [
         ["id", "ASC"]
@@ -110,7 +137,7 @@ dashboard.get("/admin", sessionChecker, (req, res) => {
     })
 })
 
-dashboard.get("/ansor", sessionChecker, (req, res) => {
+dashboard.get("/ansor", sessionChecker, sessionChecker6, (req, res) => {
   res.send("ansor dashboard")
 })
 
