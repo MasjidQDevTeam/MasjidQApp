@@ -11,6 +11,7 @@ const app = express();
 const index = require('./routes/index');
 const register = require('./routes/register');
 const login = require('./routes/login');
+const sedekah_online = require('./routes/e_sedekah')
 const dashboard = require('./routes/dashboard');
 
 
@@ -48,8 +49,10 @@ var sessionChecker = ((req, res, next) => {
   }
 })
 
+
 app.use('/', sessionChecker, index)
 app.use('/register', sessionChecker, register)
 app.use('/login', sessionChecker, login)
+app.use('/sedekah_online', sessionChecker, sedekah_online)
 
-app.listen("3000", console.log('connecting to localhost:3000'))
+app.listen(3000, console.log('connecting to localhost'))
