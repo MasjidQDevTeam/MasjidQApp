@@ -13,6 +13,7 @@ const register = require('./routes/register');
 const login = require('./routes/login');
 const sedekah_online = require('./routes/e_sedekah')
 const dashboard = require('./routes/dashboard');
+const logout = require('./routes/logout');
 
 
 app.set('view engine', 'ejs');
@@ -42,7 +43,7 @@ app.use((req, res, next) => {
 app.use("/dashboard", dashboard)
 
 var sessionChecker = ((req, res, next) => {
-  if (req.session.email && req.cookies.email_sid) {
+  if (req.session.email && req.cookies.email_sid && !req.session.user_type) {
     res.redirect("/dashboard");
   } else {
     next();
@@ -54,5 +55,6 @@ app.use('/', sessionChecker, index)
 app.use('/register', sessionChecker, register)
 app.use('/login', sessionChecker, login)
 app.use('/sedekah_online', sessionChecker, sedekah_online)
+app.use('/logout', sessionChecker, logout)
 
 app.listen(3000, console.log('connecting to localhost'))
