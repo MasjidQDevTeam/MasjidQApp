@@ -197,7 +197,7 @@ dashboard.post("/admin", sessionChecker, sessionChecker4, (req, res) => {
                 }
               })
 
-              var refreshIntervalId = setInterval(sendEmail, 5 * 1000);
+              var refreshIntervalId = setInterval(sendEmail,  * 1000);
             })
           });
       })
