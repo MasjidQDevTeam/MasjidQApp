@@ -13,6 +13,8 @@ const register = require('./routes/register');
 const login = require('./routes/login');
 const dashboard = require('./routes/dashboard');
 const logout = require('./routes/logout');
+const verify = require('./routes/verification_email')
+const verification = require('./routes/verification');
 
 
 app.set('view engine', 'ejs');
@@ -32,6 +34,8 @@ app.use(session({
   }
 }))
 
+app.locals.full_name_helper = require("./helpers/full_name_helper")
+
 app.use((req, res, next) => {
   if (req.cookies.email_sid && !req.session.email) {
     res.clearCookie("email_sid")
@@ -44,6 +48,15 @@ app.use("/dashboard", dashboard)
 var sessionChecker = ((req, res, next) => {
   console.log("sessionChecker1 processing....");
   if (req.session.email && req.cookies.email_sid && !req.session.user_type) {
+    res.redirect("/");
+  } else {
+    next();
+  }
+})
+
+var sessionChecker7 = ((req, res, next) => {
+  console.log("sessionChecker7 processing....");
+  if (req.session.email && req.cookies.email_sid && req.session.user_type !== "Admin") {
     res.redirect("/");
   } else {
     next();
@@ -63,5 +76,8 @@ app.use('/', index)
 app.use('/register', sessionChecker3, sessionChecker, register)
 app.use('/login', sessionChecker3, sessionChecker, login)
 app.use('/logout', sessionChecker, logout)
+app.use('/verification', sessionChecker, verification)
+// app.use('/verify', verify)
+
 
 app.listen(3000, console.log('connecting to localhost'))

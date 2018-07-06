@@ -10,5 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     UserPrayer.belongsTo(models.user, {foreignKey: "UserId"});
     UserPrayer.belongsTo(models.prayer, {foreignKey: "PrayerId"});
   };
+
   return UserPrayer;
 };

@@ -137,6 +137,106 @@ dashboard.get("/admin", sessionChecker, sessionChecker4, (req, res) => {
     })
 })
 
+dashboard.post("/admin", sessionChecker, sessionChecker4, (req, res) => {
+  // console.log(req.body);
+  if (req.body.random === "1") {
+    // console.log(".....");
+    let transporter = nodeMailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'hacktiv8andresudi@gmail.com',
+        pass: 'hacktiv8Super'
+      }
+    })
+
+
+    models.user.findAll({
+        where: {
+          user_type: "Ansor",
+        },
+        raw: true,
+      })
+      .then(function sendEmail() {
+        models.UserPrayer.findAndCountAll({
+            where: {},
+          })
+          .then((result) => {
+            if (result.count === 3) {
+              clearInterval(refreshIntervalId);
+            }
+            models.user.findAll({
+              where: {
+                user_type: "Ansor"
+              }
+            }).then((userData) => {
+              console.log("...");
+              var arrUserIdContainer = [];
+              for (var i = 0; i < userData.length; i++) {
+                arrUserIdContainer.push(userData[i].id)
+              }
+              var UserId = String(arrUserIdContainer[(Math.floor((Math.random() * arrUserIdContainer.length)))])
+              // console.log(userData[arrUserIdContainer.indexOf(Number(UserId))]);
+              var arrPrayerIdContainer = [1, 2, 3, 4, 5]
+              var PrayerId = String(arrPrayerIdContainer[Math.floor((Math.random() * arrPrayerIdContainer.length))])
+
+              let customUrl = "http://localhost:3000/verification/" + UserId + "/" + PrayerId
+              // console.log(datum);
+              let mailOptions = {
+                from: '"MasjidQ" <hacktiv8andresudi@gmail.com>',
+                to: userData[arrUserIdContainer.indexOf(Number(UserId))].email,
+                subject: "Ansor Invitation Confirmation",
+                text: `Assalamualaikum ${userData[arrUserIdContainer.indexOf(Number(UserId))].full_name},\nTo confirm your duty as an Ansor, please click the link below:\n${customUrl}\nWassalamualaikum`,
+              };
+
+              transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  return console.log(error);
+                }
+              })
+
+              var refreshIntervalId = setInterval(sendEmail, 5 * 1000);
+            })
+          });
+      })
+      .then(() => {
+        models.prayer.findAll({
+            order: [
+              ["id", "ASC"]
+            ],
+            include: [models.user],
+          })
+          .then((userPrayerData) => {
+            console.log(userPrayerData);
+            res.render("adminPage", {
+              userPrayerData: userPrayerData,
+            })
+          })
+      })
+  } else {
+    // console.log("deleting...");
+    models.UserPrayer.destroy({
+        where: {}
+      })
+      .then(() => {
+        models.prayer.findAll({
+            order: [
+              ["id", "ASC"]
+            ],
+            include: [models.user],
+          })
+          .then((userPrayerData) => {
+            // console.log(userPrayerData);
+            res.render("adminPage", {
+              userPrayerData: userPrayerData,
+            })
+          })
+      })
+  }
+})
+
 dashboard.get("/ansor", sessionChecker, sessionChecker6, (req, res) => {
   res.send("ansor dashboard")
 })

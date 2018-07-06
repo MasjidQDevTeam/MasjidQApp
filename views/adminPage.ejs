@@ -11,14 +11,20 @@
 <body>
   <%- include("./partials/generalHeaderWithLogout") %>
     <div class="container">
+      <form class="" action="/dashboard/admin" method="get">
+        <button type="submit" name="clear" value="1">Refresh</button>
+      </form>
       <center>
         <h1>Admin Page</h1>
       </center>
       <br>
       <center>
-        <form class="" action="/dashboard" method="post">
-          <button type="submit" name="button" value="randomize">Assign Ansor Randomly</button>
-          <button type="submit" name="button" value="randomize">Clear Ansor Assignment</button>
+        <form class="" action="/dashboard/admin" method="post">
+          <button type="submit" name="random" value="1">Assign Ansor Randomly</button>
+        </form>
+
+        <form class="" action="/dashboard/admin" method="post">
+          <button type="submit" name="clear" value="1">Clear Ansor Assignment</button>
         </form>
       </center>
 
@@ -27,7 +33,6 @@
           <tr>
             <th scope="col">No</th>
             <th scope="col">Prayer Name</th>
-            <th scope="col">Ansors with Pending Invitation</th>
             <th scope="col">Confirmed On Duty Ansors</th>
           </tr>
         </thead>
@@ -41,10 +46,14 @@
                 <%= userPrayerData[i].prayer_name %>
               </td>
               <td>
-              </td>
-              <td>
-              </td>
-              <td>
+                <ol>
+                  <% var ansorNames = full_name_helper(userPrayerData[i]) %>
+                    <% for (var j = 0; j < ansorNames.length; j++) { %>
+                      <li>
+                        <%= ansorNames[j] %>
+                      </li>
+                      <% } %>
+                </ol>
               </td>
             </tr>
             <% } %>
