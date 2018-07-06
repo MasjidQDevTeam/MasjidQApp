@@ -4,6 +4,8 @@ const verification = express.Router()
 const ejs = require('ejs')
 const models = require('../models');
 
+
+
 verification.get('/:UserId/:PrayerId', (req, res) => {
   models.prayer.findById(Number(req.params.PrayerId))
   .then((prayerData) => {

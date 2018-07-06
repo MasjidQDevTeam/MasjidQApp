@@ -63,6 +63,7 @@ var sessionChecker7 = ((req, res, next) => {
   }
 })
 
+
 var sessionChecker3 = ((req, res, next) => {
   console.log("sessionChecker3 processing....");
   if (req.session.email) {
